@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0f18;
+  --bg2:#131624;
+  --bg3:#181c2e;
+  --surface:#1e2235;
+  --surface2:#242840;
+  --border:#2a2f4a;
+  --border2:#353c5e;
+  --gold:#c9a96e;
+  --gold2:#e8c98a;
+  --text:#e8e4dd;
+  --text2:#a8a4b8;
+  --text3:#5c5e7a;
+  --accent:#7b82c4;
+  --accent2:#9da3d4;
+  --danger:#c47b7b;
+  --success:#7bc49a;
+  --font-serif:'Cormorant Garamond',serif;
+  --font-sans:'DM Sans',sans-serif;
+  --font-mono:'Space Mono',monospace;
+  --r:6px;
+  --r2:10px;
+  --r3:14px;
+  --trans:0.18s ease;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-sans);
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─── SCANLINE TEXTURE ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:9998;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ─── NAV ─── */
+#nav{
+  position:fixed;top:0;left:0;right:0;
+  height:52px;
+  background:rgba(13,15,24,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 32px;
+  gap:0;
+  z-index:100;
+}
+.nav-brand{
+  font-family:var(--font-serif);
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:0.12em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-right:auto;
+  cursor:pointer;
+}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-link{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:var(--text2);
+  text-transform:uppercase;
+  padding:6px 14px;
+  border-radius:var(--r);
+  cursor:pointer;
+  transition:color var(--trans),background var(--trans);
+  white-space:nowrap;
+}
+.nav-link:hover,.nav-link.active{color:var(--text);background:var(--surface)}
+.nav-link.active{color:var(--gold)}
+.nav-edit-btn{
+  margin-left:12px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  color:var(--text2);
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.06em;
+  padding:5px 12px;
+  border-radius:var(--r);
+  cursor:pointer;
+  transition:all var(--trans);
+}
+.nav-edit-btn:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ─── PAGES ─── */
+.page{
+  display:none;
+  min-height:100vh;
+  padding-top:52px;
+}
+.page.active{display:block}
+
+/* ─── HOME PAGE ─── */
+#page-home{
+  display:none;
+}
+#page-home.active{display:grid;grid-template-columns:1fr 380px;min-height:100vh}
+.home-main{
+  padding:64px 48px 48px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+}
+.home-eyebrow{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--text3);
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.home-title{
+  font-family:var(--font-serif);
+  font-size:clamp(42px,5vw,72px);
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.home-title span{color:var(--gold);font-style:italic}
+.home-subtitle{
+  font-family:var(--font-serif);
+  font-size:18px;
+  font-weight:400;
+  color:var(--text2);
+  font-style:italic;
+  margin-bottom:24px;
+}
+.home-desc{
+  font-size:13px;
+  color:var(--text2);
+  max-width:480px;
+  line-height:1.8;
+  margin-bottom:40px;
+}
+.home-meta-row{
+  display:flex;gap:32px;
+  margin-bottom:48px;
+}
+.home-meta-item{
+  display:flex;flex-direction:column;gap:4px;
+}
+.home-meta-label{
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.14em;
+  color:var(--text3);
+  text-transform:uppercase;
+}
+.home-meta-value{
+  font-family:var(--font-serif);
+  font-size:13px;
+  color:var(--gold);
+  letter-spacing:0.04em;
+}
+.projects-section{flex:1}
+.projects-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.16em;
+  color:var(--text3);
+  text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+}
+.projects-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+.project-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r2);
+  padding:20px;
+  cursor:pointer;
+  transition:all var(--trans);
+  position:relative;
+  overflow:hidden;
+}
+.project-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:0;
+  transition:opacity var(--trans);
+}
+.project-card:hover{border-color:var(--border2);background:var(--surface2)}
+.project-card:hover::before{opacity:1}
+.project-num{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--gold);letter-spacing:0.1em;
+  margin-bottom:8px;
+}
+.project-name{
+  font-family:var(--font-serif);font-size:16px;
+  font-weight:500;color:var(--text);margin-bottom:4px;
+}
+.project-desc{
+  font-size:12px;color:var(--text2);line-height:1.6;
+  margin-bottom:12px;
+}
+.project-tags{display:flex;flex-wrap:wrap;gap:4px}
+.project-tag{
+  font-family:var(--font-mono);font-size:9px;
+  letter-spacing:0.06em;color:var(--accent2);
+  background:rgba(123,130,196,0.1);
+  border:1px solid rgba(123,130,196,0.2);
+  padding:2px 8px;border-radius:20px;
+}
+.add-project-btn{
+  background:transparent;
+  border:1px dashed var(--border2);
+  border-radius:var(--r2);
+  padding:20px;
+  cursor:pointer;
+  transition:all var(--trans);
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;
+  color:var(--text3);
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.08em;
+}
+.add-project-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* HOME SIDEBAR */
+.home-sidebar{
+  padding:48px 32px;
+  display:flex;flex-direction:column;gap:32px;
+}
+.profile-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r3);
+  padding:28px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:12px;text-align:center;
+}
+.profile-avatar{
+  width:80px;height:80px;
+  border-radius:50%;
+  border:2px solid var(--border2);
+  object-fit:cover;
+  background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:28px;color:var(--text2);
+  overflow:hidden;
+  flex-shrink:0;
+}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-name{
+  font-family:var(--font-serif);font-size:20px;font-weight:500;color:var(--text);
+}
+.profile-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.profile-badge{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.08em;
+  padding:3px 10px;border-radius:20px;
+}
+.badge-type{background:rgba(201,169,110,0.12);color:var(--gold);border:1px solid rgba(201,169,110,0.25)}
+.badge-status{background:rgba(123,196,154,0.1);color:var(--success);border:1px solid rgba(123,196,154,0.2)}
+.profile-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:8px;
+}
+.profile-stat{
+  background:var(--bg2);border-radius:var(--r);
+  padding:10px 12px;text-align:center;
+}
+.profile-stat-num{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;color:var(--gold);
+}
+.profile-stat-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--text3);
+  text-transform:uppercase;
+}
+.news-section{}
+.news-header{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;
+  color:var(--text3);text-transform:uppercase;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.news-more{
+  color:var(--accent2);cursor:pointer;
+  transition:color var(--trans);
+}
+.news-more:hover{color:var(--accent)}
+.news-list{display:flex;flex-direction:column;gap:8px}
+.news-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:12px 16px;
+  cursor:pointer;transition:all var(--trans);
+  position:relative;padding-left:24px;
+}
+.news-item::before{
+  content:'';
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  width:4px;height:4px;border-radius:50%;
+  background:var(--gold);
+}
+.news-item:hover{border-color:var(--border2);background:var(--surface2)}
+.news-item-title{font-size:12px;color:var(--text);margin-bottom:2px}
+.news-item-date{font-family:var(--font-mono);font-size:10px;color:var(--text3)}
+.bgm-section{
+  margin-top:auto;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r2);padding:16px 20px;
+}
+.bgm-header{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;
+  color:var(--text3);text-transform:uppercase;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;
+}
+.bgm-status{
+  font-size:10px;color:var(--text3);
+  display:flex;align-items:center;gap:8px;
+}
+.bgm-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text3);
+}
+.bgm-dot.playing{background:var(--success);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.bgm-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bgm-btn{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;
+  color:var(--text2);background:var(--bg2);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:5px 12px;cursor:pointer;transition:all var(--trans);
+}
+.bgm-btn:hover{color:var(--gold);border-color:var(--gold)}
+.bgm-name{font-size:11px;color:var(--text2);margin-top:6px;font-style:italic}
+
+/* ─── CHARACTER PAGE ─── */
+#page-character{padding-top:52px}
+.page-header{
+  padding:40px 48px 32px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.page-title-row{display:flex;flex-direction:column;gap:8px}
+.page-eyebrow{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;
+  color:var(--text3);text-transform:uppercase;
+}
+.page-title{
+  font-family:var(--font-serif);font-size:36px;font-weight:300;
+  color:var(--text);letter-spacing:-0.01em;
+}
+.page-actions{display:flex;gap:8px;align-items:center}
+.btn-primary{
+  background:var(--gold);color:var(--bg);
+  border:none;border-radius:var(--r);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  padding:8px 18px;cursor:pointer;transition:all var(--trans);
+  white-space:nowrap;
+}
+.btn-primary:hover{background:var(--gold2)}
+.btn-ghost{
+  background:transparent;color:var(--text2);
+  border:1px solid var(--border2);border-radius:var(--r);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  padding:7px 16px;cursor:pointer;transition:all var(--trans);
+  white-space:nowrap;
+}
+.btn-ghost:hover{color:var(--text);border-color:var(--text3)}
+.char-filter-bar{
+  padding:20px 48px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:24px;
+  flex-wrap:wrap;
+}
+.filter-tabs{display:flex;gap:4px}
+.filter-tab{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text2);padding:5px 14px;border-radius:20px;
+  cursor:pointer;transition:all var(--trans);
+  white-space:nowrap;
+}
+.filter-tab:hover{color:var(--text)}
+.filter-tab.active{
+  background:rgba(201,169,110,0.15);
+  color:var(--gold);
+  border:1px solid rgba(201,169,110,0.3);
+}
+.sort-select{
+  margin-left:auto;
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text2);border-radius:var(--r);
+  font-family:var(--font-mono);font-size:11px;
+  padding:6px 12px;cursor:pointer;
+}
+.char-grid{
+  padding:32px 48px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:16px;
+}
+.char-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r3);overflow:hidden;
+  cursor:pointer;transition:all var(--trans);
+  position:relative;
+}
+.char-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.char-card-img{
+  width:100%;aspect-ratio:3/4;
+  object-fit:cover;
+  background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:40px;color:var(--text3);
+  position:relative;overflow:hidden;
+}
+.char-card-img img{width:100%;height:100%;object-fit:cover}
+.char-card-cat{
+  position:absolute;top:10px;left:10px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.08em;
+  color:var(--gold);background:rgba(13,15,24,0.8);
+  padding:3px 8px;border-radius:20px;
+  border:1px solid rgba(201,169,110,0.3);
+}
+.char-card-edit{
+  position:absolute;top:10px;right:10px;
+  background:rgba(13,15,24,0.8);border:1px solid var(--border2);
+  color:var(--text2);border-radius:var(--r);
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer;transition:all var(--trans);
+  opacity:0;
+}
+.char-card:hover .char-card-edit{opacity:1}
+.char-card-edit:hover{color:var(--gold);border-color:var(--gold)}
+.char-card-body{padding:14px 16px}
+.char-card-name{
+  font-family:var(--font-serif);font-size:16px;font-weight:500;
+  color:var(--text);margin-bottom:2px;
+}
+.char-card-code{
+  font-family:var(--font-mono);font-size:10px;color:var(--text3);
+  letter-spacing:0.04em;margin-bottom:8px;
+}
+.char-card-desc{
+  font-size:11px;color:var(--text2);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ─── WORLD PAGE ─── */
+#page-world{padding-top:52px}
+.world-hero{
+  position:relative;
+  height:320px;
+  background:var(--bg2);
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.world-hero-img{
+  position:absolute;inset:0;
+  object-fit:cover;width:100%;height:100%;opacity:0.3;
+}
+.world-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, var(--bg) 0%, transparent 60%);
+}
+.world-hero-content{
+  position:relative;padding:40px 48px;
+  width:100%;
+}
+.world-hero-title{
+  font-family:var(--font-serif);font-size:clamp(32px,4vw,56px);
+  font-weight:300;color:var(--text);margin-bottom:8px;
+  letter-spacing:-0.02em;
+}
+.world-hero-sub{
+  font-family:var(--font-serif);font-size:16px;
+  color:var(--text2);font-style:italic;margin-bottom:12px;
+}
+.world-hero-quote{
+  font-family:var(--font-serif);font-size:14px;font-style:italic;
+  color:var(--gold);opacity:0.8;
+  border-left:2px solid var(--gold);padding-left:16px;
+  max-width:600px;
+}
+.world-hero-link{
+  position:absolute;right:48px;bottom:40px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;
+  color:var(--accent2);cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:color var(--trans);
+}
+.world-hero-link:hover{color:var(--accent)}
+.world-edit-hero{
+  position:absolute;top:20px;right:20px;
+}
+.world-nav-grid{
+  padding:48px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.world-nav-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r3);padding:32px 28px;
+  cursor:pointer;transition:all var(--trans);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+}
+.world-nav-item::after{
+  content:'→';
+  position:absolute;right:24px;bottom:24px;
+  font-family:var(--font-serif);font-size:20px;color:var(--text3);
+  transition:all var(--trans);
+}
+.world-nav-item:hover{border-color:var(--border2);background:var(--surface2)}
+.world-nav-item:hover::after{color:var(--gold);right:20px}
+.world-nav-num{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;
+  color:var(--gold);
+}
+.world-nav-title{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;
+  color:var(--text);
+}
+.world-nav-sub{font-size:12px;color:var(--text2);line-height:1.6}
+.world-nav-diamond{
+  width:6px;height:6px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  opacity:0.6;
+}
+
+/* ─── WORLD DETAIL ─── */
+#page-world-detail{padding-top:52px;display:none}
+#page-world-detail.active{display:block}
+.breadcrumb{
+  padding:20px 48px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text3);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;transition:color var(--trans);
+}
+.breadcrumb:hover{color:var(--text2)}
+.breadcrumb .back-arrow{color:var(--accent2)}
+.world-detail-content{
+  max-width:760px;margin:0 auto;
+  padding:48px;
+}
+.world-detail-eyebrow{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;
+  color:var(--text3);text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.world-detail-eyebrow::before{
+  content:'';display:inline-block;
+  width:8px;height:8px;background:var(--gold);
+  transform:rotate(45deg);
+}
+.world-detail-title{
+  font-family:var(--font-serif);font-size:40px;font-weight:300;
+  color:var(--text);margin-bottom:8px;letter-spacing:-0.01em;
+}
+.world-detail-sub{
+  font-family:var(--font-serif);font-size:16px;font-style:italic;
+  color:var(--text2);margin-bottom:32px;
+}
+.world-detail-body{
+  font-size:14px;color:var(--text2);line-height:1.9;
+}
+.world-edit-btn-inline{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;
+  color:var(--text3);cursor:pointer;transition:color var(--trans);
+  margin-left:auto;
+}
+.world-edit-btn-inline:hover{color:var(--gold)}
+.world-section-settings{padding:48px}
+.settings-categories{display:flex;flex-direction:column;gap:16px}
+.settings-category{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r2);overflow:hidden;
+}
+.settings-cat-header{
+  padding:16px 20px;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;
+  transition:background var(--trans);
+  font-family:var(--font-serif);font-size:16px;font-weight:500;
+  color:var(--text);
+}
+.settings-cat-header:hover{background:var(--surface2)}
+.settings-cat-pages{
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;
+}
+.settings-page-item{
+  padding:12px 20px 12px 32px;
+  font-size:13px;color:var(--text2);
+  border-bottom:1px solid var(--border);
+  cursor:pointer;transition:all var(--trans);
+  display:flex;align-items:center;gap:8px;
+}
+.settings-page-item:last-child{border-bottom:none}
+.settings-page-item:hover{color:var(--text);background:var(--bg2)}
+.settings-page-item::before{
+  content:'';width:4px;height:4px;
+  border-radius:50%;background:var(--text3);flex-shrink:0;
+}
+.settings-add-cat{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text3);cursor:pointer;transition:color var(--trans);
+  padding:16px 20px;
+  background:transparent;border:1px dashed var(--border2);
+  border-radius:var(--r2);
+}
+.settings-add-cat:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ─── LIST PAGE ─── */
+#page-list{padding-top:52px}
+.list-content{padding:48px}
+.list-empty{
+  text-align:center;padding:80px 20px;
+  font-family:var(--font-serif);font-size:20px;font-style:italic;
+  color:var(--text3);
+}
+
+/* ─── ABOUT PAGE ─── */
+#page-about{padding-top:52px}
+.about-layout{
+  display:grid;grid-template-columns:1fr 320px;
+  min-height:calc(100vh - 52px);
+}
+.about-main{
+  padding:64px 48px;
+  border-right:1px solid var(--border);
+}
+.about-title{
+  font-family:var(--font-serif);font-size:40px;font-weight:300;
+  color:var(--text);margin-bottom:32px;letter-spacing:-0.01em;
+}
+.about-desc{
+  font-size:14px;color:var(--text2);line-height:1.9;
+  max-width:560px;
+}
+.about-edit-btn{
+  margin-top:32px;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text3);cursor:pointer;transition:color var(--trans);
+}
+.about-edit-btn:hover{color:var(--gold)}
+.about-sidebar{
+  padding:64px 32px;
+  display:flex;flex-direction:column;gap:24px;
+}
+.about-img{
+  width:100%;aspect-ratio:1;
+  border-radius:var(--r2);overflow:hidden;
+  background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:48px;color:var(--text3);
+}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.about-links{display:flex;flex-direction:column;gap:8px}
+.about-link-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all var(--trans);
+  font-size:13px;color:var(--text2);text-decoration:none;
+}
+.about-link-item:hover{border-color:var(--border2);color:var(--text)}
+.about-link-arrow{color:var(--accent2);font-size:16px}
+
+/* ─── CHARACTER DETAIL ─── */
+#page-char-detail{padding-top:52px;display:none}
+#page-char-detail.active{display:block}
+.char-detail-layout{
+  display:grid;grid-template-columns:320px 1fr;
+  min-height:calc(100vh - 52px);
+}
+.char-detail-sidebar{
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  padding:32px 28px;
+  display:flex;flex-direction:column;gap:24px;
+  position:sticky;top:52px;height:calc(100vh - 52px);
+  overflow-y:auto;
+}
+.char-detail-img{
+  width:100%;aspect-ratio:2/3;
+  border-radius:var(--r2);overflow:hidden;
+  background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:64px;color:var(--text3);
+}
+.char-detail-img img{width:100%;height:100%;object-fit:cover}
+.char-detail-name{
+  font-family:var(--font-serif);font-size:28px;font-weight:400;
+  color:var(--text);
+}
+.char-detail-code{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--text3);letter-spacing:0.06em;
+}
+.char-meta-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+.char-meta-item{
+  background:var(--surface);border-radius:var(--r);
+  padding:10px 12px;
+}
+.char-meta-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;
+  color:var(--text3);text-transform:uppercase;margin-bottom:3px;
+}
+.char-meta-value{font-size:13px;color:var(--text)}
+.char-cat-badge{
+  display:inline-block;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;
+  color:var(--gold);background:rgba(201,169,110,0.12);
+  border:1px solid rgba(201,169,110,0.25);
+  padding:4px 12px;border-radius:20px;
+}
+.char-detail-main{
+  padding:40px 48px;
+}
+.char-tabs{
+  display:flex;gap:2px;margin-bottom:32px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:0;
+}
+.char-tab{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;
+  color:var(--text2);padding:10px 20px;
+  cursor:pointer;transition:color var(--trans);
+  position:relative;text-transform:uppercase;
+}
+.char-tab::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;
+  height:2px;background:var(--gold);
+  transform:scaleX(0);transition:transform var(--trans);
+}
+.char-tab:hover{color:var(--text)}
+.char-tab.active{color:var(--gold)}
+.char-tab.active::after{transform:scaleX(1)}
+.char-tab-content{display:none}
+.char-tab-content.active{display:block}
+.char-section-header{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;
+  color:var(--text3);text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.stat-bars{display:flex;flex-direction:column;gap:12px}
+.stat-bar-item{}
+.stat-bar-label{
+  display:flex;justify-content:space-between;
+  font-size:12px;margin-bottom:6px;
+}
+.stat-bar-name{color:var(--text2)}
+.stat-bar-val{font-family:var(--font-mono);color:var(--gold)}
+.stat-bar-track{
+  height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;
+}
+.stat-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:2px;transition:width 0.6s ease;
+}
+.story-list{display:flex;flex-direction:column;gap:12px}
+.story-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r2);padding:20px;
+  cursor:pointer;transition:all var(--trans);
+}
+.story-item:hover{border-color:var(--border2)}
+.story-item-date{
+  font-family:var(--font-mono);font-size:10px;color:var(--gold);
+  letter-spacing:0.06em;margin-bottom:6px;
+}
+.story-item-title{
+  font-family:var(--font-serif);font-size:16px;font-weight:500;
+  color:var(--text);margin-bottom:8px;
+}
+.story-item-content{
+  font-size:12px;color:var(--text2);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.memo-list{display:flex;flex-direction:column;gap:10px}
+.memo-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--gold);
+  border-radius:var(--r);padding:14px 16px;
+}
+.memo-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.memo-content{font-size:12px;color:var(--text2);line-height:1.6}
+.relation-graph{
+  min-height:300px;
+  background:var(--bg2);border-radius:var(--r2);
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.relation-center{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:13px;color:var(--gold);
+  text-align:center;position:absolute;
+  z-index:2;
+}
+.relation-node{
+  position:absolute;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  transition:all var(--trans);
+}
+.relation-node:hover{transform:scale(1.05)}
+.relation-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:16px;color:var(--text2);
+  overflow:hidden;
+}
+.relation-avatar img{width:100%;height:100%;object-fit:cover}
+.relation-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;
+  color:var(--text2);text-align:center;max-width:60px;
+}
+.relation-type{
+  font-size:9px;color:var(--accent2);text-align:center;
+}
+.relation-line{
+  position:absolute;background:var(--border2);
+  height:1px;transform-origin:left center;
+  z-index:1;pointer-events:none;
+}
+.add-btn-small{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;
+  color:var(--text3);cursor:pointer;transition:color var(--trans);
+  background:none;border:none;
+}
+.add-btn-small:hover{color:var(--gold)}
+
+/* ─── MODALS ─── */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(13,15,24,0.85);
+  backdrop-filter:blur(4px);
+  z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.2s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--r3);
+  padding:32px;
+  width:min(560px,90vw);
+  max-height:85vh;
+  overflow-y:auto;
+  transform:translateY(12px);
+  transition:transform 0.2s ease;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.modal-title{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;
+  color:var(--text);
+}
+.modal-close{
+  background:none;border:none;color:var(--text3);
+  font-size:20px;cursor:pointer;transition:color var(--trans);
+  line-height:1;padding:4px;
+}
+.modal-close:hover{color:var(--text)}
+.form-group{margin-bottom:20px}
+.form-label{
+  display:block;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;
+  color:var(--text3);text-transform:uppercase;
+  margin-bottom:8px;
+}
+.form-input,.form-textarea,.form-select{
+  width:100%;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  color:var(--text);
+  font-family:var(--font-sans);font-size:13px;
+  padding:10px 14px;
+  transition:border-color var(--trans);
+  outline:none;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{
+  border-color:var(--gold);
+}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.form-select{cursor:pointer}
+.form-select option{background:var(--bg2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.form-radio{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text2);padding:5px 14px;border-radius:20px;
+  border:1px solid var(--border2);cursor:pointer;transition:all var(--trans);
+}
+.form-radio:hover{color:var(--text);border-color:var(--text3)}
+.form-radio.active{
+  color:var(--gold);
+  background:rgba(201,169,110,0.1);
+  border-color:rgba(201,169,110,0.4);
+}
+.form-actions{
+  display:flex;justify-content:flex-end;gap:8px;
+  margin-top:24px;padding-top:20px;
+  border-top:1px solid var(--border);
+}
+.color-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.color-field{display:flex;flex-direction:column;gap:6px}
+.color-preview{
+  height:36px;border-radius:var(--r);
+  border:1px solid var(--border2);
+  position:relative;overflow:hidden;cursor:pointer;
+}
+.color-preview input[type="color"]{
+  position:absolute;inset:0;
+  opacity:0;width:100%;height:100%;cursor:pointer;
+  border:none;padding:0;
+}
+.color-swatch{
+  position:absolute;inset:0;pointer-events:none;
+}
+
+/* ─── Story/Memo modal toolbar ─── */
+.editor-toolbar{
+  display:flex;gap:4px;margin-bottom:8px;
+  flex-wrap:wrap;
+}
+.editor-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text2);border-radius:var(--r);
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer;transition:all var(--trans);
+  font-family:var(--font-sans);
+}
+.editor-btn:hover{color:var(--text);border-color:var(--border2)}
+
+/* ─── NOTIFICATIONS ─── */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:14px 20px;
+  font-size:13px;color:var(--text);
+  z-index:9999;
+  transform:translateY(20px);opacity:0;
+  transition:all 0.2s ease;
+  pointer-events:none;
+  max-width:280px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-left:3px solid var(--success)}
+.toast.error{border-left:3px solid var(--danger)}
+
+/* ─── DIVIDER ─── */
+.section-divider{
+  height:1px;background:var(--border);
+  margin:0 48px;
+}
+
+/* ─── UTILS ─── */
+.hidden{display:none!important}
+.text-gold{color:var(--gold)}
+.text-muted{color:var(--text2)}
+.font-serif{font-family:var(--font-serif)}
+.font-mono{font-family:var(--font-mono)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  #page-home.active{grid-template-columns:1fr}
+  .home-sidebar{border-top:1px solid var(--border)}
+  .about-layout{grid-template-columns:1fr}
+  .about-sidebar{border-top:1px solid var(--border)}
+  .char-detail-layout{grid-template-columns:1fr}
+  .char-detail-sidebar{position:static;height:auto}
+  .world-nav-grid{grid-template-columns:1fr}
+  .page-header{padding:32px 24px;flex-direction:column;align-items:flex-start;gap:16px}
+  .char-filter-bar{padding:16px 24px}
+  .char-grid{padding:24px}
+  .home-main,.home-sidebar{padding:32px 24px}
+  .world-hero-content{padding:32px 24px}
+  .world-nav-grid{padding:24px}
+  .about-main,.about-sidebar{padding:32px 24px}
+  .char-detail-main{padding:24px}
+  .world-detail-content{padding:32px 24px}
+  .list-content{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav id="nav">
+  <div class="nav-brand" onclick="showPage('home')">ARCHIVE</div>
+  <div class="nav-links">
+    <div class="nav-link active" onclick="showPage('home')" data-page="home">HOME</div>
+    <div class="nav-link" onclick="showPage('character')" data-page="character">CHARACTER</div>
+    <div class="nav-link" onclick="showPage('world')" data-page="world">WORLD</div>
+    <div class="nav-link" onclick="showPage('list')" data-page="list">LIST</div>
+    <div class="nav-link" onclick="showPage('about')" data-page="about">ABOUT</div>
+  </div>
+  <button class="nav-edit-btn" onclick="openModal('modal-archive')">EDIT ARCHIVE</button>
+</nav>
+
+<!-- ═══════════════════════════ HOME ═══════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="home-main">
+    <div class="home-eyebrow">PRIVATE ARCHIVE</div>
+    <h1 class="home-title" id="home-title">이름<br><span id="home-title-eng">ENG / 日本語</span></h1>
+    <p class="home-subtitle" id="home-subtitle">캐치프레이즈를 입력해주세요.</p>
+    <p class="home-desc" id="home-desc">텍스트를 입력해주세요</p>
+    <div class="home-meta-row">
+      <div class="home-meta-item">
+        <div class="home-meta-label">PROJECT</div>
+        <div class="home-meta-value" id="home-project-num">001</div>
+      </div>
+      <div class="home-meta-item">
+        <div class="home-meta-label">ARCHIVE</div>
+        <div class="home-meta-value" id="home-archive-label">ARCHIVE SYSTEM</div>
+      </div>
+      <div class="home-meta-item">
+        <div class="home-meta-label">MEMORY DATA</div>
+        <div class="home-meta-value" id="home-sub-desc">STATUS · ACTIVE</div>
+      </div>
+    </div>
+    <div class="projects-section">
+      <div class="projects-label">PROJECTS</div>
+      <div class="projects-grid" id="projects-grid">
+      </div>
+      <div style="margin-top:12px">
+        <div class="add-project-btn" onclick="openModal('modal-project')">+ ADD PROJECT</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-sidebar">
+    <div class="profile-card">
+      <div class="profile-avatar" id="profile-avatar-wrapper">
+        <img id="profile-avatar-img" src="https://kindyt0day.github.io/kindytoday-viewer/images/profile.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <div class="profile-name" id="profile-name">NAME</div>
+      <div class="profile-badges">
+        <span class="profile-badge badge-type" id="profile-type">TYPE</span>
+        <span class="profile-badge badge-status" id="profile-status">ACTIVE</span>
+      </div>
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-num" id="stat-char-count">0</div>
+          <div class="profile-stat-label">CHARACTERS</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-num" id="stat-project-count">0</div>
+          <div class="profile-stat-label">PROJECTS</div>
+        </div>
+      </div>
+    </div>
+    <div class="news-section">
+      <div class="news-header">
+        <span>LATEST NEWS</span>
+        <span class="news-more" onclick="showNewsModal()">MORE +</span>
+      </div>
+      <div class="news-list" id="news-list">
+        <div class="news-item">
+          <div class="news-item-title" id="default-news">아카이브가 개설되었습니다.</div>
+          <div class="news-item-date">2025.01.01</div>
+        </div>
+      </div>
+    </div>
+    <div class="bgm-section">
+      <div class="bgm-header">
+        <span>BGM</span>
+        <span class="bgm-status">
+          <span class="bgm-dot" id="bgm-dot"></span>
+          <span id="bgm-status-text">NO SIGNAL</span>
+        </span>
+      </div>
+      <div class="bgm-controls">
+        <button class="bgm-btn" id="bgm-play-btn" onclick="toggleBGM()">▶ PLAY</button>
+        <label class="bgm-btn" style="cursor:pointer">
+          UPLOAD
+          <input type="file" accept="audio/*" id="bgm-upload" style="display:none" onchange="loadBGM(this)">
+        </label>
+      </div>
+      <div class="bgm-name" id="bgm-name">—</div>
+      <audio id="bgm-audio" loop></audio>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ CHARACTER ═══════════════════════════ -->
+<div id="page-character" class="page">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-eyebrow">02 · PRIVATE ARCHIVE</div>
+      <h2 class="page-title">CHARACTER</h2>
+    </div>
+    <div class="page-actions">
+      <select class="btn-ghost form-select" id="char-sort" style="background:transparent;padding:7px 16px" onchange="sortCharacters()">
+        <option value="newest">최신순</option>
+        <option value="oldest">오래된순</option>
+        <option value="name">이름순</option>
+      </select>
+      <button class="btn-primary" onclick="openModal('modal-char-edit')">+ ADD</button>
+    </div>
+  </div>
+  <div class="char-filter-bar">
+    <div class="filter-tabs" id="char-filter-tabs">
+      <div class="filter-tab active" onclick="filterChars('all',this)">ALL CHARACTER</div>
+      <div class="filter-tab" onclick="filterChars('AU/IF',this)">AU&amp;IF</div>
+      <div class="filter-tab" onclick="filterChars('OC',this)">OC</div>
+      <div class="filter-tab" onclick="filterChars('NPC',this)">NPC</div>
+    </div>
+  </div>
+  <div class="char-grid" id="char-grid"></div>
+</div>
+
+<!-- ═══════════════════════════ WORLD ═══════════════════════════ -->
+<div id="page-world" class="page">
+  <div class="world-hero" id="world-hero">
+    <div class="world-hero-overlay"></div>
+    <div class="world-hero-content">
+      <h2 class="world-hero-title" id="world-title">WORLD TITLE</h2>
+      <p class="world-hero-sub" id="world-subtitle">세계관 부제목</p>
+      <blockquote class="world-hero-quote" id="world-quote">❝ 인용문</blockquote>
+      <div class="world-hero-link" id="world-link-btn" onclick="openExternalLink()">VIEW MORE →</div>
+    </div>
+    <button class="nav-edit-btn world-edit-hero" onclick="openModal('modal-world-edit')">EDIT</button>
+  </div>
+  <div class="world-nav-grid">
+    <div class="world-nav-item" onclick="showWorldDetail('overview')">
+      <div class="world-nav-num">01</div>
+      <div class="world-nav-diamond"></div>
+      <div class="world-nav-title">OVERVIEW</div>
+      <div class="world-nav-sub" id="world-overview-label">세계관 개요</div>
+      <div style="flex:1"></div>
+    </div>
+    <div class="world-nav-item" onclick="showWorldDetail('story')">
+      <div class="world-nav-num">02</div>
+      <div class="world-nav-diamond"></div>
+      <div class="world-nav-title">STORY</div>
+      <div class="world-nav-sub" id="world-story-label">세계관 스토리</div>
+      <div style="flex:1"></div>
+    </div>
+    <div class="world-nav-item" onclick="showWorldDetail('settings')">
+      <div class="world-nav-num">03</div>
+      <div class="world-nav-diamond"></div>
+      <div class="world-nav-title">SETTINGS</div>
+      <div class="world-nav-sub">세계관 설정</div>
+      <div style="flex:1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ WORLD DETAIL ═══════════════════════════ -->
+<div id="page-world-detail" class="page">
+  <div class="breadcrumb" onclick="showPage('world')">
+    <span class="back-arrow">←</span>
+    BACK TO WORLD
+  </div>
+  <div id="world-detail-overview" class="world-section hidden">
+    <div class="world-detail-content">
+      <div class="world-detail-eyebrow">
+        WORLD OVERVIEW
+        <button class="world-edit-btn-inline" onclick="openModal('modal-overview-edit')">✎ EDIT</button>
+      </div>
+      <h2 class="world-detail-title" id="wd-overview-title">세계관 개요</h2>
+      <p class="world-detail-sub" id="wd-overview-sub">부제목</p>
+      <div class="world-detail-body" id="wd-overview-body">내용</div>
+    </div>
+  </div>
+  <div id="world-detail-story" class="world-section hidden">
+    <div class="world-detail-content">
+      <div class="world-detail-eyebrow">
+        WORLD STORY
+        <button class="world-edit-btn-inline" onclick="openModal('modal-story-edit')">✎ EDIT</button>
+      </div>
+      <h2 class="world-detail-title" id="wd-story-title">세계관 스토리</h2>
+      <p class="world-detail-sub" id="wd-story-sub">부제목</p>
+      <div class="world-detail-body" id="wd-story-body">내용</div>
+    </div>
+  </div>
+  <div id="world-detail-settings" class="world-section hidden">
+    <div class="world-section-settings">
+      <div class="page-header" style="padding:0 0 24px">
+        <div class="page-title-row">
+          <div class="page-eyebrow">03 · WORLD</div>
+          <h2 class="page-title">SETTINGS</h2>
+        </div>
+        <button class="btn-primary" onclick="openModal('modal-new-category')">+ ADD CATEGORY</button>
+      </div>
+      <div class="settings-categories" id="settings-categories"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ LIST ═══════════════════════════ -->
+<div id="page-list" class="page">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-eyebrow">LIST</div>
+      <h2 class="page-title">PROJECT LIST</h2>
+    </div>
+    <button class="btn-primary" onclick="openModal('modal-project')">+ ADD PROJECT</button>
+  </div>
+  <div class="list-content">
+    <div class="projects-grid" id="list-projects-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="about-layout">
+    <div class="about-main">
+      <h2 class="about-title" id="about-title">ABOUT</h2>
+      <p class="about-desc" id="about-desc">アーカイブについての説明を入力してください。</p>
+      <button class="about-edit-btn" onclick="openModal('modal-about-edit')">✎ EDIT</button>
+    </div>
+    <div class="about-sidebar">
+      <div class="about-img" id="about-img">
+        <img id="about-img-el" src="" alt="" style="display:none" onerror="this.style.display='none'">
+        <span id="about-img-placeholder">✦</span>
+      </div>
+      <div class="about-links" id="about-links"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ CHARACTER DETAIL ═══════════════════════════ -->
+<div id="page-char-detail" class="page">
+  <div class="breadcrumb" onclick="showPage('character')">
+    <span class="back-arrow">←</span>
+    BACK TO CHARACTER LIST
+  </div>
+  <div class="char-detail-layout">
+    <div class="char-detail-sidebar">
+      <div class="char-detail-img" id="cd-img-wrapper">
+        <img id="cd-img" src="" alt="" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <div class="char-detail-name" id="cd-name">NAME</div>
+        <div class="char-detail-code" id="cd-code">CODE</div>
+      </div>
+      <div class="char-cat-badge" id="cd-cat">OC</div>
+      <div class="char-meta-grid">
+        <div class="char-meta-item">
+          <div class="char-meta-label">AGE</div>
+          <div class="char-meta-value" id="cd-age">??</div>
+        </div>
+        <div class="char-meta-item">
+          <div class="char-meta-label">HEIGHT</div>
+          <div class="char-meta-value" id="cd-height">—</div>
+        </div>
+        <div class="char-meta-item">
+          <div class="char-meta-label">TYPE</div>
+          <div class="char-meta-value" id="cd-type">—</div>
+        </div>
+        <div class="char-meta-item">
+          <div class="char-meta-label">LAST UPDATE</div>
+          <div class="char-meta-value" id="cd-updated">—</div>
+        </div>
+      </div>
+      <p class="text-muted" style="font-size:12px;line-height:1.7" id="cd-desc"></p>
+      <button class="btn-ghost" onclick="openCharEdit(currentCharId)" style="width:100%">✎ EDIT CHARACTER</button>
+    </div>
+    <div class="char-detail-main">
+      <div class="char-tabs">
+        <div class="char-tab active" onclick="switchCharTab('stat',this)">STAT</div>
+        <div class="char-tab" onclick="switchCharTab('story',this)">STORY</div>
+        <div class="char-tab" onclick="switchCharTab('memo',this)">MEMO</div>
+        <div class="char-tab" onclick="switchCharTab('relation',this)">RELATION</div>
+      </div>
+      <div id="char-tab-stat" class="char-tab-content active">
+        <div class="char-section-header">
+          <span>STATUS</span>
+          <button class="add-btn-small" onclick="openModal('modal-stat-edit')">✎ EDIT</button>
+        </div>
+        <div class="stat-bars" id="cd-stats"></div>
+      </div>
+      <div id="char-tab-story" class="char-tab-content">
+        <div class="char-section-header">
+          <span>STORY</span>
+          <button class="add-btn-small" onclick="openModal('modal-add-story')">+ ADD STORY</button>
+        </div>
+        <div class="story-list" id="cd-stories"></div>
+      </div>
+      <div id="char-tab-memo" class="char-tab-content">
+        <div class="char-section-header">
+          <span>MEMO</span>
+          <button class="add-btn-small" onclick="openModal('modal-add-memo')">+ NEW MEMO</button>
+        </div>
+        <div class="memo-list" id="cd-memos"></div>
+      </div>
+      <div id="char-tab-relation" class="char-tab-content">
+        <div class="char-section-header">
+          <span>RELATIONSHIP</span>
+          <button class="add-btn-small" onclick="openModal('modal-add-relation')">+ ADD</button>
+        </div>
+        <div class="relation-graph" id="cd-relation-graph" style="height:400px">
+          <div class="relation-center" id="cd-relation-center">CENTER</div>
+          <div id="cd-relation-nodes"></div>
+        </div>
+        <div id="cd-relation-list" style="margin-top:16px;display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
+
+<!-- Archive Edit Modal -->
+<div class="modal-overlay" id="modal-archive">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">EDIT ARCHIVE</div>
+      <button class="modal-close" onclick="closeModal('modal-archive')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">ARCHIVE TITLE</label><input class="form-input" id="f-archive-title" placeholder="이름"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">ENG / JPN TITLE</label><input class="form-input" id="f-archive-title-eng" placeholder="ENG / 日本語"></div>
+      <div class="form-group"><label class="form-label">CATCHPHRASE</label><input class="form-input" id="f-archive-subtitle" placeholder="캐치프레이즈"></div>
+    </div>
+    <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea class="form-textarea" id="f-archive-desc" placeholder="설명"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">PROJECT NUMBER</label><input class="form-input" id="f-archive-projnum" placeholder="001"></div>
+      <div class="form-group"><label class="form-label">ARCHIVE LABEL</label><input class="form-input" id="f-archive-label" placeholder="ARCHIVE SYSTEM"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">SUB DESCRIPTION</label><input class="form-input" id="f-archive-subdesc" placeholder="STATUS · ACTIVE"></div>
+    </div>
+    <div style="margin-bottom:16px"><div class="form-label" style="margin-bottom:12px">PROFILE</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">PROFILE NAME</label><input class="form-input" id="f-profile-name" placeholder="NAME"></div>
+      <div class="form-group"><label class="form-label">PROFILE TYPE</label><input class="form-input" id="f-profile-type" placeholder="TYPE"></div>
+    </div>
+    <div class="form-group"><label class="form-label">PROFILE STATUS</label><input class="form-input" id="f-profile-status" placeholder="ACTIVE"></div>
+    <div class="form-group"><label class="form-label">PROFILE IMAGE URL</label><input class="form-input" id="f-profile-img" placeholder="https://..."></div></div>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-archive')">CLOSE</button>
+      <button class="btn-primary" onclick="saveArchive()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Character Edit Modal -->
+<div class="modal-overlay" id="modal-char-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">CHARACTER EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-char-edit')">✕</button>
+    </div>
+    <input type="hidden" id="f-char-id">
+    <div class="form-group"><label class="form-label">NAME</label><input class="form-input" id="f-char-name" placeholder="이름"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">CODE</label><input class="form-input" id="f-char-code" placeholder="CODE"></div>
+      <div class="form-group"><label class="form-label">AGE</label><input class="form-input" id="f-char-age" placeholder="??"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">HEIGHT</label><input class="form-input" id="f-char-height" placeholder="cm"></div>
+      <div class="form-group"><label class="form-label">TYPE</label><input class="form-input" id="f-char-type" placeholder="캐릭터 타입"></div>
+    </div>
+    <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea class="form-textarea" id="f-char-desc" placeholder="설명"></textarea></div>
+    <div class="form-group"><label class="form-label">CATEGORY</label>
+      <div class="form-radio-group">
+        <div class="form-radio" onclick="selectRadio('cat','AU/IF',this)">AU/IF</div>
+        <div class="form-radio active" onclick="selectRadio('cat','OC',this)">OC</div>
+        <div class="form-radio" onclick="selectRadio('cat','NPC',this)">NPC</div>
+      </div>
+      <input type="hidden" id="f-char-cat" value="OC">
+    </div>
+    <div class="form-group"><label class="form-label">IMAGE URL</label><input class="form-input" id="f-char-img" placeholder="https://..."></div>
+    <div class="form-actions">
+      <button class="btn-ghost" id="f-char-delete-btn" style="color:var(--danger);border-color:var(--danger);display:none" onclick="deleteChar()">DELETE</button>
+      <button class="btn-ghost" onclick="closeModal('modal-char-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveChar()">SAVE CHARACTER</button>
+    </div>
+  </div>
+</div>
+
+<!-- About Edit Modal -->
+<div class="modal-overlay" id="modal-about-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">EDIT ABOUT</div>
+      <button class="modal-close" onclick="closeModal('modal-about-edit')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">ABOUT TITLE</label><input class="form-input" id="f-about-title" placeholder="ABOUT"></div>
+    <div class="form-group"><label class="form-label">ABOUT DESCRIPTION</label><textarea class="form-textarea" id="f-about-desc" placeholder="설명"></textarea></div>
+    <div class="form-group"><label class="form-label">ABOUT IMAGE URL</label><input class="form-input" id="f-about-img" placeholder="https://..."></div>
+    <div class="form-label" style="margin-bottom:12px">LINKS</div>
+    <div id="about-links-edit"></div>
+    <button class="add-btn-small" onclick="addAboutLinkField()" style="margin-top:8px">+ ADD LINK</button>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-about-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveAbout()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- World Edit Modal -->
+<div class="modal-overlay" id="modal-world-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">WORLD EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-world-edit')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-world-title" placeholder="WORLD TITLE"></div>
+    <div class="form-group"><label class="form-label">SUBTITLE</label><input class="form-input" id="f-world-sub" placeholder="세계관 부제목"></div>
+    <div class="form-group"><label class="form-label">QUOTE</label><input class="form-input" id="f-world-quote" placeholder="인용문"></div>
+    <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea class="form-textarea" id="f-world-desc" placeholder="세계관 설명"></textarea></div>
+    <div class="form-group"><label class="form-label">WORLD IMAGE URL</label><input class="form-input" id="f-world-img" placeholder="https://..."></div>
+    <div class="form-group"><label class="form-label">WORLD LINK URL</label><input class="form-input" id="f-world-link" placeholder="https://..."></div>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-world-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveWorld()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Overview Edit -->
+<div class="modal-overlay" id="modal-overview-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">OVERVIEW EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-overview-edit')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-ov-title" placeholder="세계관 개요"></div>
+    <div class="form-group"><label class="form-label">SUBTITLE</label><input class="form-input" id="f-ov-sub" placeholder="부제목"></div>
+    <div class="form-group"><label class="form-label">CONTENT</label><textarea class="form-textarea" id="f-ov-content" placeholder="내용" style="min-height:160px"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-overview-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveOverview()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Story Edit (World) -->
+<div class="modal-overlay" id="modal-story-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">STORY EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-story-edit')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-ws-title" placeholder="세계관 스토리"></div>
+    <div class="form-group"><label class="form-label">SUBTITLE</label><input class="form-input" id="f-ws-sub" placeholder="부제목"></div>
+    <div class="form-group"><label class="form-label">CONTENT</label><textarea class="form-textarea" id="f-ws-content" placeholder="내용" style="min-height:160px"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-story-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveWorldStory()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Category Modal -->
+<div class="modal-overlay" id="modal-new-category">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-header">
+      <div class="modal-title">NEW CATEGORY</div>
+      <button class="modal-close" onclick="closeModal('modal-new-category')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">CATEGORY NAME</label><input class="form-input" id="f-cat-name" placeholder="카테고리 이름"></div>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-new-category')">CLOSE</button>
+      <button class="btn-primary" onclick="createCategory()">CREATE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Project Edit Modal -->
+<div class="modal-overlay" id="modal-project">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">PROJECT EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-project')">✕</button>
+    </div>
+    <input type="hidden" id="f-proj-id">
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-proj-title" placeholder="프로젝트 이름"></div>
+    <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea class="form-textarea" id="f-proj-desc" placeholder="프로젝트 설명"></textarea></div>
+    <div class="form-group"><label class="form-label">TAGS (comma separated)</label><input class="form-input" id="f-proj-tags" placeholder="태그1, 태그2"></div>
+    <div class="form-group"><label class="form-label">IMAGE URL</label><input class="form-input" id="f-proj-img" placeholder="https://..."></div>
+    <div class="form-group"><label class="form-label">WORLD DESCRIPTION</label><textarea class="form-textarea" id="f-proj-world" placeholder="세계관 설명"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-ghost" id="f-proj-delete-btn" style="color:var(--danger);border-color:var(--danger);display:none" onclick="deleteProject()">DELETE</button>
+      <button class="btn-ghost" onclick="closeModal('modal-project')">CLOSE</button>
+      <button class="btn-primary" onclick="saveProject()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Story (Character) Modal -->
+<div class="modal-overlay" id="modal-add-story">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">ADD STORY</div>
+      <button class="modal-close" onclick="closeModal('modal-add-story')">✕</button>
+    </div>
+    <input type="hidden" id="f-story-id">
+    <div class="form-group"><label class="form-label">DATE</label><input class="form-input" id="f-story-date" type="date"></div>
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-story-title" placeholder="스토리 제목"></div>
+    <div class="form-group"><label class="form-label">CONTENT</label>
+      <div class="editor-toolbar">
+        <button class="editor-btn" onclick="fmtText('bold')"><b>B</b></button>
+        <button class="editor-btn" onclick="fmtText('italic')"><i>I</i></button>
+        <button class="editor-btn" onclick="fmtText('underline')"><u>U</u></button>
+        <button class="editor-btn" onclick="fmtText('strikeThrough')"><s>S</s></button>
+        <button class="editor-btn" onclick="insertHr()">—</button>
+      </div>
+      <textarea class="form-textarea" id="f-story-content" placeholder="스토리 내용" style="min-height:160px"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn-ghost" id="f-story-delete-btn" style="color:var(--danger);border-color:var(--danger);display:none" onclick="deleteStory()">DELETE</button>
+      <button class="btn-ghost" onclick="closeModal('modal-add-story')">CLOSE</button>
+      <button class="btn-primary" onclick="saveStory()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Memo Modal -->
+<div class="modal-overlay" id="modal-add-memo">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">MEMO</div>
+      <button class="modal-close" onclick="closeModal('modal-add-memo')">✕</button>
+    </div>
+    <input type="hidden" id="f-memo-id">
+    <div class="form-group"><label class="form-label">TITLE</label><input class="form-input" id="f-memo-title" placeholder="제목"></div>
+    <div class="form-group"><label class="form-label">CONTENT</label><textarea class="form-textarea" id="f-memo-content" placeholder="내용" style="min-height:120px"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-ghost" id="f-memo-delete-btn" style="color:var(--danger);border-color:var(--danger);display:none" onclick="deleteMemo()">DELETE</button>
+      <button class="btn-ghost" onclick="closeModal('modal-add-memo')">CLOSE</button>
+      <button class="btn-primary" onclick="saveMemo()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Stat Edit Modal -->
+<div class="modal-overlay" id="modal-stat-edit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">STAT EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-stat-edit')">✕</button>
+    </div>
+    <div id="stat-edit-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px"></div>
+    <button class="add-btn-small" onclick="addStatField()" style="margin-bottom:16px">+ ADD STAT</button>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-stat-edit')">CLOSE</button>
+      <button class="btn-primary" onclick="saveStats()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Relation Modal -->
+<div class="modal-overlay" id="modal-add-relation">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">RELATION EDIT</div>
+      <button class="modal-close" onclick="closeModal('modal-add-relation')">✕</button>
+    </div>
+    <input type="hidden" id="f-rel-id">
+    <div class="form-group"><label class="form-label">CHARACTER NAME</label><input class="form-input" id="f-rel-char" placeholder="관계 캐릭터 이름"></div>
+    <div class="form-group"><label class="form-label">RELATION TYPE</label><input class="form-input" id="f-rel-type" placeholder="관계 유형 (e.g. LIKE, RIVAL...)"></div>
+    <div class="form-group"><label class="form-label">MEMO</label><textarea class="form-textarea" id="f-rel-memo" placeholder="관계 메모" style="min-height:80px"></textarea></div>
+    <div class="form-group"><label class="form-label">POSITION</label>
+      <div class="form-radio-group">
+        <div class="form-radio active" onclick="selectRadio('relpos','top',this)">TOP</div>
+        <div class="form-radio" onclick="selectRadio('relpos','left',this)">LEFT</div>
+        <div class="form-radio" onclick="selectRadio('relpos','right',this)">RIGHT</div>
+        <div class="form-radio" onclick="selectRadio('relpos','bottom',this)">BOTTOM</div>
+        <div class="form-radio" onclick="selectRadio('relpos','top-left',this)">TOP LEFT</div>
+        <div class="form-radio" onclick="selectRadio('relpos','top-right',this)">TOP RIGHT</div>
+        <div class="form-radio" onclick="selectRadio('relpos','bottom-left',this)">BOTTOM LEFT</div>
+        <div class="form-radio" onclick="selectRadio('relpos','bottom-right',this)">BOTTOM RIGHT</div>
+      </div>
+      <input type="hidden" id="f-rel-pos" value="top">
+    </div>
+    <div class="form-actions">
+      <button class="btn-ghost" id="f-rel-delete-btn" style="color:var(--danger);border-color:var(--danger);display:none" onclick="deleteRelation()">DELETE</button>
+      <button class="btn-ghost" onclick="closeModal('modal-add-relation')">CLOSE</button>
+      <button class="btn-primary" onclick="saveRelation()">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════ DATA LAYER ═══════════════
+const KEYS = {
+  archive:'archive_data',characters:'characters',projects:'projects',
+  world:'world_data',about:'about_data',news:'news_data',
+  worldSections:'world_sections',categories:'world_categories'
+};
+function load(k){try{return JSON.parse(localStorage.getItem(k))||null}catch{return null}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+
+let archive = load(KEYS.archive)||{
+  title:'이름',titleEng:'ENG / 日本語',subtitle:'캐치프레이즈를 입력해주세요.',
+  desc:'텍스트를 입력해주세요',projNum:'001',archiveLabel:'ARCHIVE SYSTEM',
+  subDesc:'STATUS · ACTIVE',
+  profileName:'NAME',profileType:'TYPE',profileStatus:'ACTIVE',profileImg:''
+};
+let characters = load(KEYS.characters)||[];
+let projects = load(KEYS.projects)||[];
+let worldData = load(KEYS.world)||{
+  title:'WORLD TITLE',subtitle:'세계관 부제목',quote:'인용문',desc:'',img:'',link:'',
+  overview:{title:'세계관 개요',sub:'부제목',content:'내용'},
+  story:{title:'세계관 스토리',sub:'부제목',content:'내용'}
+};
+let aboutData = load(KEYS.about)||{title:'ABOUT',desc:'',img:'',links:[]};
+let newsData = load(KEYS.news)||[{title:'아카이브가 개설되었습니다.',date:'2025.01.01'}];
+let categories = load(KEYS.categories)||[];
+
+let currentCharId = null;
+let currentCharFilter = 'all';
+let currentWorldDetail = null;
+
+// ═══════════════ NAV ═══════════════
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(el=>el.classList.remove('active'));
+  const pg = document.getElementById('page-'+p);
+  if(pg) pg.classList.add('active');
+  const lnk = document.querySelector(`.nav-link[data-page="${p}"]`);
+  if(lnk) lnk.classList.add('active');
+  if(p==='home') renderHome();
+  if(p==='character') renderChars();
+  if(p==='world') renderWorld();
+  if(p==='list') renderList();
+  if(p==='about') renderAbout();
+}
+
+function showWorldDetail(section){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-world-detail').classList.add('active');
+  document.querySelectorAll('.world-section').forEach(el=>el.classList.add('hidden'));
+  document.getElementById('world-detail-'+section).classList.remove('hidden');
+  currentWorldDetail = section;
+  if(section==='settings') renderSettings();
+}
+
+// ═══════════════ RENDER ═══════════════
+function renderHome(){
+  document.getElementById('home-title').innerHTML = archive.title + '<br><span>' + archive.titleEng + '</span>';
+  document.getElementById('home-subtitle').textContent = archive.subtitle;
+  document.getElementById('home-desc').textContent = archive.desc;
+  document.getElementById('home-project-num').textContent = archive.projNum;
+  document.getElementById('home-archive-label').textContent = archive.archiveLabel;
+  document.getElementById('home-sub-desc').textContent = archive.subDesc;
+  document.getElementById('profile-name').textContent = archive.profileName;
+  document.getElementById('profile-type').textContent = archive.profileType;
+  document.getElementById('profile-status').textContent = archive.profileStatus;
+  if(archive.profileImg){
+    document.getElementById('profile-avatar-img').src = archive.profileImg;
+    document.getElementById('profile-avatar-img').style.display='block';
+  }
+  document.getElementById('stat-char-count').textContent = characters.length;
+  document.getElementById('stat-project-count').textContent = projects.length;
+  renderProjectsGrid('projects-grid');
+  renderNews();
+}
+
+function renderProjectsGrid(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.innerHTML = projects.map((p,i)=>`
+    <div class="project-card" onclick="openProjectEdit(${i})">
+      <div class="project-num">${String(i+1).padStart(3,'0')}</div>
+      <div class="project-name">${esc(p.title||'UNTITLED')}</div>
+      <div class="project-desc">${esc(p.desc||'')}</div>
+      ${p.tags?`<div class="project-tags">${p.tags.split(',').filter(t=>t.trim()).map(t=>`<span class="project-tag">${esc(t.trim())}</span>`).join('')}</div>`:''}
+    </div>
+  `).join('');
+}
+
+function renderNews(){
+  const el = document.getElementById('news-list');
+  el.innerHTML = newsData.slice(0,3).map(n=>`
+    <div class="news-item">
+      <div class="news-item-title">${esc(n.title)}</div>
+      <div class="news-item-date">${esc(n.date)}</div>
+    </div>
+  `).join('');
+}
+
+function renderChars(){
+  let chars = [...characters];
+  if(currentCharFilter !== 'all') chars = chars.filter(c=>c.cat === currentCharFilter);
+  const sort = document.getElementById('char-sort').value;
+  if(sort==='newest') chars = chars.slice().reverse();
+  else if(sort==='name') chars.sort((a,b)=>a.name.localeCompare(b.name));
+  const el = document.getElementById('char-grid');
+  el.innerHTML = chars.map(c=>`
+    <div class="char-card" onclick="showCharDetail('${c.id}')">
+      <div class="char-card-img">
+        ${c.img?`<img src="${esc(c.img)}" alt="${esc(c.name)}" onerror="this.style.display='none'">`:''}
+        <span style="${c.img?'display:none':''}">✦</span>
+        <div class="char-card-cat">${esc(c.cat||'OC')}</div>
+        <div class="char-card-edit" onclick="event.stopPropagation();openCharEdit('${c.id}')">⚙</div>
+      </div>
+      <div class="char-card-body">
+        <div class="char-card-name">${esc(c.name)}</div>
+        <div class="char-card-code">${esc(c.code||'')}</div>
+        <div class="char-card-desc">${esc(c.desc||'')}</div>
+      </div>
+    </div>
+  `).join('');
+  if(chars.length===0){
+    el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;font-family:var(--font-serif);font-size:18px;font-style:italic;color:var(--text3)">등록된 캐릭터가 없습니다.</div>';
+  }
+}
+
+function filterChars(cat,el){
+  currentCharFilter = cat;
+  document.querySelectorAll('#char-filter-tabs .filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderChars();
+}
+
+function sortCharacters(){renderChars()}
+
+function showCharDetail(id){
+  currentCharId = id;
+  const c = characters.find(x=>x.id===id);
+  if(!c) return;
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-char-detail').classList.add('active');
+  document.getElementById('cd-name').textContent = c.name;
+  document.getElementById('cd-code').textContent = c.code||'';
+  document.getElementById('cd-cat').textContent = c.cat||'OC';
+  document.getElementById('cd-age').textContent = c.age||'??';
+  document.getElementById('cd-height').textContent = c.height?c.height+'cm':'—';
+  document.getElementById('cd-type').textContent = c.type||'—';
+  document.getElementById('cd-updated').textContent = c.updated||'—';
+  document.getElementById('cd-desc').textContent = c.desc||'';
+  const img = document.getElementById('cd-img');
+  if(c.img){img.src=c.img;img.style.display='block'}else{img.style.display='none'}
+  document.getElementById('cd-relation-center').textContent = c.name;
+  document.querySelectorAll('.char-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.char-tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.char-tab').classList.add('active');
+  document.getElementById('char-tab-stat').classList.add('active');
+  renderStats(c);
+  renderStories(c);
+  renderMemos(c);
+  renderRelations(c);
+}
+
+function renderStats(c){
+  const el = document.getElementById('cd-stats');
+  const stats = c.stats||[];
+  if(stats.length===0){
+    el.innerHTML='<div style="color:var(--text3);font-size:13px;font-style:italic">스탯이 없습니다. EDIT 버튼으로 추가하세요.</div>';
+    return;
+  }
+  el.innerHTML = stats.map(s=>`
+    <div class="stat-bar-item">
+      <div class="stat-bar-label">
+        <span class="stat-bar-name">${esc(s.name)}</span>
+        <span class="stat-bar-val">${s.val}</span>
+      </div>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.min(s.val,100)}%"></div></div>
+    </div>
+  `).join('');
+}
+
+function renderStories(c){
+  const el = document.getElementById('cd-stories');
+  const stories = c.stories||[];
+  if(stories.length===0){
+    el.innerHTML='<div style="color:var(--text3);font-size:13px;font-style:italic">스토리가 없습니다.</div>';
+    return;
+  }
+  el.innerHTML = stories.map((s,i)=>`
+    <div class="story-item" onclick="editStory(${i})">
+      <div class="story-item-date">${esc(s.date||'')}</div>
+      <div class="story-item-title">${esc(s.title||'')}</div>
+      <div class="story-item-content">${esc(s.content||'')}</div>
+    </div>
+  `).join('');
+}
+
+function renderMemos(c){
+  const el = document.getElementById('cd-memos');
+  const memos = c.memos||[];
+  if(memos.length===0){
+    el.innerHTML='<div style="color:var(--text3);font-size:13px;font-style:italic">메모가 없습니다.</div>';
+    return;
+  }
+  el.innerHTML = memos.map((m,i)=>`
+    <div class="memo-item" onclick="editMemo(${i})" style="cursor:pointer">
+      <div class="memo-title">${esc(m.title||'')}</div>
+      <div class="memo-content">${esc(m.content||'')}</div>
+    </div>
+  `).join('');
+}
+
+function renderRelations(c){
+  const el = document.getElementById('cd-relation-nodes');
+  const listEl = document.getElementById('cd-relation-list');
+  const rels = c.relations||[];
+  el.innerHTML='';
+  const posMap = {
+    'top':{x:'50%',y:'10%'},'bottom':{x:'50%',y:'80%'},
+    'left':{x:'10%',y:'50%'},'right':{x:'85%',y:'50%'},
+    'top-left':{x:'20%',y:'15%'},'top-right':{x:'75%',y:'15%'},
+    'bottom-left':{x:'20%',y:'75%'},'bottom-right':{x:'75%',y:'75%'}
+  };
+  rels.forEach((r,i)=>{
+    const pos = posMap[r.pos]||posMap['top'];
+    const node = document.createElement('div');
+    node.className='relation-node';
+    node.style.cssText=`position:absolute;left:${pos.x};top:${pos.y};transform:translate(-50%,-50%)`;
+    node.innerHTML=`
+      <div class="relation-avatar">✦</div>
+      <div class="relation-label">${esc(r.char||'')}</div>
+      <div class="relation-type">${esc(r.type||'')}</div>
+    `;
+    node.onclick=()=>editRelation(i);
+    el.appendChild(node);
+  });
+  listEl.innerHTML = rels.map((r,i)=>`
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="editRelation(${i})">
+      <span style="font-size:13px;color:var(--text)">${esc(r.char||'')}</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--accent2)">${esc(r.type||'')}</span>
+    </div>
+  `).join('');
+}
+
+function renderWorld(){
+  document.getElementById('world-title').textContent = worldData.title||'WORLD TITLE';
+  document.getElementById('world-subtitle').textContent = worldData.subtitle||'';
+  document.getElementById('world-quote').textContent = '❝ '+(worldData.quote||'인용문');
+  if(worldData.img){
+    const hero = document.getElementById('world-hero');
+    let imgEl = hero.querySelector('.world-hero-img');
+    if(!imgEl){imgEl=document.createElement('img');imgEl.className='world-hero-img';hero.prepend(imgEl)}
+    imgEl.src = worldData.img;
+  }
+  const ov = worldData.overview||{};
+  const st = worldData.story||{};
+  document.getElementById('world-overview-label').textContent = ov.title||'세계관 개요';
+  document.getElementById('world-story-label').textContent = st.title||'세계관 스토리';
+  document.getElementById('wd-overview-title').textContent = ov.title||'세계관 개요';
+  document.getElementById('wd-overview-sub').textContent = ov.sub||'부제목';
+  document.getElementById('wd-overview-body').textContent = ov.content||'내용';
+  document.getElementById('wd-story-title').textContent = st.title||'세계관 스토리';
+  document.getElementById('wd-story-sub').textContent = st.sub||'부제목';
+  document.getElementById('wd-story-body').textContent = st.content||'내용';
+}
+
+function renderList(){
+  renderProjectsGrid('list-projects-grid');
+  if(projects.length===0){
+    document.getElementById('list-projects-grid').innerHTML='<div class="list-empty">등록된 프로젝트가 없습니다.</div>';
+  }
+}
+
+function renderAbout(){
+  document.getElementById('about-title').textContent = aboutData.title||'ABOUT';
+  document.getElementById('about-desc').textContent = aboutData.desc||'';
+  const img = document.getElementById('about-img-el');
+  const ph = document.getElementById('about-img-placeholder');
+  if(aboutData.img){img.src=aboutData.img;img.style.display='block';ph.style.display='none'}
+  else{img.style.display='none';ph.style.display='block'}
+  const linksEl = document.getElementById('about-links');
+  linksEl.innerHTML = (aboutData.links||[]).filter(l=>l.title&&l.url).map(l=>`
+    <a href="${esc(l.url)}" target="_blank" class="about-link-item">
+      <span>${esc(l.title)}</span>
+      <span class="about-link-arrow">→</span>
+    </a>
+  `).join('');
+}
+
+function renderSettings(){
+  const el = document.getElementById('settings-categories');
+  el.innerHTML = categories.map((cat,ci)=>`
+    <div class="settings-category">
+      <div class="settings-cat-header">
+        <span>${esc(cat.name)}</span>
+        <button class="add-btn-small" onclick="event.stopPropagation();addPageToCategory(${ci})">+ ADD PAGE</button>
+      </div>
+      <div class="settings-cat-pages">
+        ${(cat.pages||[]).map((p,pi)=>`
+          <div class="settings-page-item" onclick="showSettingsPage(${ci},${pi})">${esc(p.name||'PAGE')}</div>
+        `).join('')}
+        ${(cat.pages||[]).length===0?'<div style="padding:12px 20px;color:var(--text3);font-size:12px;font-style:italic">페이지가 없습니다.</div>':''}
+      </div>
+    </div>
+  `).join('');
+  if(categories.length===0){
+    el.innerHTML='<div style="color:var(--text3);font-size:13px;font-style:italic;padding:24px 0">카테고리가 없습니다.</div>';
+  }
+}
+
+// ═══════════════ SAVE FUNCTIONS ═══════════════
+function saveArchive(){
+  archive = {
+    title:val('f-archive-title')||archive.title,
+    titleEng:val('f-archive-title-eng')||archive.titleEng,
+    subtitle:val('f-archive-subtitle')||archive.subtitle,
+    desc:val('f-archive-desc')||archive.desc,
+    projNum:val('f-archive-projnum')||archive.projNum,
+    archiveLabel:val('f-archive-label')||archive.archiveLabel,
+    subDesc:val('f-archive-subdesc')||archive.subDesc,
+    profileName:val('f-profile-name')||archive.profileName,
+    profileType:val('f-profile-type')||archive.profileType,
+    profileStatus:val('f-profile-status')||archive.profileStatus,
+    profileImg:val('f-profile-img')||archive.profileImg
+  };
+  save(KEYS.archive,archive);
+  closeModal('modal-archive');
+  renderHome();
+  toast('저장되었습니다.','success');
+}
+
+function openModal(id){
+  if(id==='modal-archive'){
+    setVal('f-archive-title',archive.title);
+    setVal('f-archive-title-eng',archive.titleEng);
+    setVal('f-archive-subtitle',archive.subtitle);
+    setVal('f-archive-desc',archive.desc);
+    setVal('f-archive-projnum',archive.projNum);
+    setVal('f-archive-label',archive.archiveLabel);
+    setVal('f-archive-subdesc',archive.subDesc);
+    setVal('f-profile-name',archive.profileName);
+    setVal('f-profile-type',archive.profileType);
+    setVal('f-profile-status',archive.profileStatus);
+    setVal('f-profile-img',archive.profileImg);
+  }
+  if(id==='modal-char-edit'){
+    document.getElementById('f-char-id').value='';
+    document.getElementById('f-char-delete-btn').style.display='none';
+    ['f-char-name','f-char-code','f-char-age','f-char-height','f-char-type','f-char-desc','f-char-img'].forEach(f=>setVal(f,''));
+    setVal('f-char-cat','OC');
+    document.querySelectorAll('.form-radio').forEach(r=>r.classList.remove('active'));
+    document.querySelector('[onclick="selectRadio(\'cat\',\'OC\',this)"]')?.classList.add('active');
+  }
+  if(id==='modal-about-edit'){
+    setVal('f-about-title',aboutData.title);
+    setVal('f-about-desc',aboutData.desc);
+    setVal('f-about-img',aboutData.img||'');
+    renderAboutLinksEdit();
+  }
+  if(id==='modal-world-edit'){
+    setVal('f-world-title',worldData.title);
+    setVal('f-world-sub',worldData.subtitle);
+    setVal('f-world-quote',worldData.quote);
+    setVal('f-world-desc',worldData.desc);
+    setVal('f-world-img',worldData.img||'');
+    setVal('f-world-link',worldData.link||'');
+  }
+  if(id==='modal-overview-edit'){
+    const ov=worldData.overview||{};
+    setVal('f-ov-title',ov.title);setVal('f-ov-sub',ov.sub);setVal('f-ov-content',ov.content);
+  }
+  if(id==='modal-story-edit'){
+    const st=worldData.story||{};
+    setVal('f-ws-title',st.title);setVal('f-ws-sub',st.sub);setVal('f-ws-content',st.content);
+  }
+  if(id==='modal-stat-edit') renderStatEditList();
+  if(id==='modal-add-story'){
+    document.getElementById('f-story-id').value='';
+    document.getElementById('f-story-delete-btn').style.display='none';
+    ['f-story-title','f-story-content'].forEach(f=>setVal(f,''));
+    document.getElementById('f-story-date').value=new Date().toISOString().split('T')[0];
+  }
+  if(id==='modal-add-memo'){
+    document.getElementById('f-memo-id').value='';
+    document.getElementById('f-memo-delete-btn').style.display='none';
+    ['f-memo-title','f-memo-content'].forEach(f=>setVal(f,''));
+  }
+  if(id==='modal-add-relation'){
+    document.getElementById('f-rel-id').value='';
+    document.getElementById('f-rel-delete-btn').style.display='none';
+    ['f-rel-char','f-rel-type','f-rel-memo'].forEach(f=>setVal(f,''));
+    setVal('f-rel-pos','top');
+    document.querySelectorAll('#modal-add-relation .form-radio').forEach(r=>r.classList.remove('active'));
+    document.querySelector('[onclick="selectRadio(\'relpos\',\'top\',this)"]')?.classList.add('active');
+  }
+  if(id==='modal-project'){
+    document.getElementById('f-proj-id').value='';
+    document.getElementById('f-proj-delete-btn').style.display='none';
+    ['f-proj-title','f-proj-desc','f-proj-tags','f-proj-img','f-proj-world'].forEach(f=>setVal(f,''));
+  }
+  document.getElementById(id).classList.add('open');
+}
+
+function openProjectEdit(idx){
+  const p = projects[idx];
+  if(!p) return;
+  document.getElementById('f-proj-id').value=idx;
+  setVal('f-proj-title',p.title||'');
+  setVal('f-proj-desc',p.desc||'');
+  setVal('f-proj-tags',p.tags||'');
+  setVal('f-proj-img',p.img||'');
+  setVal('f-proj-world',p.world||'');
+  document.getElementById('f-proj-delete-btn').style.display='inline-flex';
+  document.getElementById('modal-project').classList.add('open');
+}
+
+function saveProject(){
+  const idx = val('f-proj-id');
+  const p = {
+    title:val('f-proj-title'),desc:val('f-proj-desc'),
+    tags:val('f-proj-tags'),img:val('f-proj-img'),world:val('f-proj-world')
+  };
+  if(idx!=='') projects[parseInt(idx)]=p;
+  else projects.push(p);
+  save(KEYS.projects,projects);
+  closeModal('modal-project');
+  renderProjectsGrid('projects-grid');
+  renderProjectsGrid('list-projects-grid');
+  document.getElementById('stat-project-count').textContent=projects.length;
+  toast('프로젝트가 저장되었습니다.','success');
+}
+
+function deleteProject(){
+  const idx = parseInt(val('f-proj-id'));
+  if(isNaN(idx)) return;
+  projects.splice(idx,1);
+  save(KEYS.projects,projects);
+  closeModal('modal-project');
+  renderProjectsGrid('projects-grid');
+  renderProjectsGrid('list-projects-grid');
+  toast('삭제되었습니다.');
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+function openCharEdit(id){
+  const c = characters.find(x=>x.id===id);
+  if(!c) return;
+  setVal('f-char-id',id);
+  setVal('f-char-name',c.name||'');setVal('f-char-code',c.code||'');
+  setVal('f-char-age',c.age||'');setVal('f-char-height',c.height||'');
+  setVal('f-char-type',c.type||'');setVal('f-char-desc',c.desc||'');
+  setVal('f-char-img',c.img||'');setVal('f-char-cat',c.cat||'OC');
+  document.querySelectorAll('#modal-char-edit .form-radio').forEach(r=>r.classList.remove('active'));
+  document.querySelector(`[onclick="selectRadio('cat','${c.cat||'OC'}',this)"]`)?.classList.add('active');
+  document.getElementById('f-char-delete-btn').style.display='inline-flex';
+  document.getElementById('modal-char-edit').classList.add('open');
+}
+
+function saveChar(){
+  const id = val('f-char-id');
+  const c = {
+    id:id||Date.now().toString(),
+    name:val('f-char-name'),code:val('f-char-code'),
+    age:val('f-char-age'),height:val('f-char-height'),
+    type:val('f-char-type'),desc:val('f-char-desc'),
+    img:val('f-char-img'),cat:val('f-char-cat')||'OC',
+    updated:new Date().toISOString().split('T')[0]
+  };
+  if(!c.name){toast('이름을 입력해주세요.','error');return}
+  if(id){const i=characters.findIndex(x=>x.id===id);
+    if(i>=0){c.stats=characters[i].stats;c.stories=characters[i].stories;c.memos=characters[i].memos;c.relations=characters[i].relations;characters[i]=c}
+  }else characters.push(c);
+  save(KEYS.characters,characters);
+  closeModal('modal-char-edit');
+  renderChars();
+  document.getElementById('stat-char-count').textContent=characters.length;
+  toast('캐릭터가 저장되었습니다.','success');
+  if(currentCharId===id) showCharDetail(id);
+}
+
+function deleteChar(){
+  const id = val('f-char-id');
+  const i = characters.findIndex(x=>x.id===id);
+  if(i<0) return;
+  characters.splice(i,1);
+  save(KEYS.characters,characters);
+  closeModal('modal-char-edit');
+  showPage('character');
+  toast('삭제되었습니다.');
+}
+
+function saveAbout(){
+  aboutData.title=val('f-about-title');
+  aboutData.desc=val('f-about-desc');
+  aboutData.img=val('f-about-img');
+  const linkEls = document.querySelectorAll('#about-links-edit .link-row');
+  aboutData.links=[];
+  linkEls.forEach(row=>{
+    const t=row.querySelector('.link-title').value;
+    const u=row.querySelector('.link-url').value;
+    if(t||u) aboutData.links.push({title:t,url:u});
+  });
+  save(KEYS.about,aboutData);
+  closeModal('modal-about-edit');
+  renderAbout();
+  toast('저장되었습니다.','success');
+}
+
+function saveWorld(){
+  worldData.title=val('f-world-title');worldData.subtitle=val('f-world-sub');
+  worldData.quote=val('f-world-quote');worldData.desc=val('f-world-desc');
+  worldData.img=val('f-world-img');worldData.link=val('f-world-link');
+  save(KEYS.world,worldData);
+  closeModal('modal-world-edit');
+  renderWorld();
+  toast('저장되었습니다.','success');
+}
+
+function saveOverview(){
+  worldData.overview={title:val('f-ov-title'),sub:val('f-ov-sub'),content:val('f-ov-content')};
+  save(KEYS.world,worldData);
+  closeModal('modal-overview-edit');
+  renderWorld();
+  document.getElementById('wd-overview-title').textContent=worldData.overview.title;
+  document.getElementById('wd-overview-sub').textContent=worldData.overview.sub;
+  document.getElementById('wd-overview-body').textContent=worldData.overview.content;
+  toast('저장되었습니다.','success');
+}
+
+function saveWorldStory(){
+  worldData.story={title:val('f-ws-title'),sub:val('f-ws-sub'),content:val('f-ws-content')};
+  save(KEYS.world,worldData);
+  closeModal('modal-story-edit');
+  renderWorld();
+  document.getElementById('wd-story-title').textContent=worldData.story.title;
+  document.getElementById('wd-story-sub').textContent=worldData.story.sub;
+  document.getElementById('wd-story-body').textContent=worldData.story.content;
+  toast('저장되었습니다.','success');
+}
+
+function createCategory(){
+  const name = val('f-cat-name');
+  if(!name){toast('이름을 입력해주세요.','error');return}
+  categories.push({name,pages:[]});
+  save(KEYS.categories,categories);
+  closeModal('modal-new-category');
+  renderSettings();
+  setVal('f-cat-name','');
+  toast('카테고리가 생성되었습니다.','success');
+}
+
+function addPageToCategory(ci){
+  const name = prompt('페이지 이름을 입력하세요:');
+  if(!name) return;
+  categories[ci].pages = categories[ci].pages||[];
+  categories[ci].pages.push({name,content:''});
+  save(KEYS.categories,categories);
+  renderSettings();
+  toast('페이지가 추가되었습니다.','success');
+}
+
+function showSettingsPage(ci,pi){
+  const page = categories[ci].pages[pi];
+  const content = prompt('내용 편집 (간단 편집):', page.content||'');
+  if(content===null) return;
+  categories[ci].pages[pi].content = content;
+  save(KEYS.categories,categories);
+  toast('저장되었습니다.','success');
+}
+
+// Story
+function editStory(i){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const s = c.stories[i];
+  document.getElementById('f-story-id').value=i;
+  setVal('f-story-date',s.date||'');
+  setVal('f-story-title',s.title||'');
+  setVal('f-story-content',s.content||'');
+  document.getElementById('f-story-delete-btn').style.display='inline-flex';
+  document.getElementById('modal-add-story').classList.add('open');
+}
+
+function saveStory(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  if(!c.stories) c.stories=[];
+  const idx = val('f-story-id');
+  const s = {date:val('f-story-date'),title:val('f-story-title'),content:val('f-story-content')};
+  if(idx!=='') c.stories[parseInt(idx)]=s;
+  else c.stories.push(s);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-story');
+  renderStories(c);
+  toast('저장되었습니다.','success');
+}
+
+function deleteStory(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const idx = parseInt(val('f-story-id'));
+  if(!isNaN(idx)) c.stories.splice(idx,1);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-story');
+  renderStories(c);
+  toast('삭제되었습니다.');
+}
+
+// Memo
+function editMemo(i){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const m = c.memos[i];
+  document.getElementById('f-memo-id').value=i;
+  setVal('f-memo-title',m.title||'');
+  setVal('f-memo-content',m.content||'');
+  document.getElementById('f-memo-delete-btn').style.display='inline-flex';
+  document.getElementById('modal-add-memo').classList.add('open');
+}
+
+function saveMemo(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  if(!c.memos) c.memos=[];
+  const idx = val('f-memo-id');
+  const m = {title:val('f-memo-title'),content:val('f-memo-content')};
+  if(idx!=='') c.memos[parseInt(idx)]=m;
+  else c.memos.push(m);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-memo');
+  renderMemos(c);
+  toast('저장되었습니다.','success');
+}
+
+function deleteMemo(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const idx = parseInt(val('f-memo-id'));
+  if(!isNaN(idx)) c.memos.splice(idx,1);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-memo');
+  renderMemos(c);
+  toast('삭제되었습니다.');
+}
+
+// Stats
+function renderStatEditList(){
+  const c = characters.find(x=>x.id===currentCharId);
+  const stats = c?.stats||[];
+  const el = document.getElementById('stat-edit-list');
+  el.innerHTML = stats.map((s,i)=>`
+    <div style="display:flex;gap:8px;align-items:center">
+      <input class="form-input" value="${esc(s.name)}" placeholder="스탯 이름" oninput="updateStatField(${i},'name',this.value)" style="flex:1">
+      <input class="form-input" type="number" min="0" max="100" value="${s.val}" placeholder="0~100" oninput="updateStatField(${i},'val',parseInt(this.value)||0)" style="width:80px">
+      <button class="btn-ghost" onclick="removeStatField(${i})" style="padding:6px 10px;color:var(--danger);border-color:var(--danger)">✕</button>
+    </div>
+  `).join('');
+  el._stats = [...stats];
+}
+
+let _editingStats = [];
+function addStatField(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c){c={};c.stats=[]}
+  if(!c.stats) c.stats=[];
+  c.stats.push({name:'',val:50});
+  renderStatEditList();
+}
+function updateStatField(i,key,v){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c||!c.stats[i]) return;
+  c.stats[i][key]=v;
+}
+function removeStatField(i){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  c.stats.splice(i,1);
+  renderStatEditList();
+}
+function saveStats(){
+  save(KEYS.characters,characters);
+  const c = characters.find(x=>x.id===currentCharId);
+  if(c) renderStats(c);
+  closeModal('modal-stat-edit');
+  toast('저장되었습니다.','success');
+}
+
+// Relation
+function editRelation(i){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const r = c.relations[i];
+  document.getElementById('f-rel-id').value=i;
+  setVal('f-rel-char',r.char||'');
+  setVal('f-rel-type',r.type||'');
+  setVal('f-rel-memo',r.memo||'');
+  setVal('f-rel-pos',r.pos||'top');
+  document.querySelectorAll('#modal-add-relation .form-radio').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`[onclick="selectRadio('relpos','${r.pos||'top'}',this)"]`)?.classList.add('active');
+  document.getElementById('f-rel-delete-btn').style.display='inline-flex';
+  document.getElementById('modal-add-relation').classList.add('open');
+}
+
+function saveRelation(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  if(!c.relations) c.relations=[];
+  const idx = val('f-rel-id');
+  const r = {char:val('f-rel-char'),type:val('f-rel-type'),memo:val('f-rel-memo'),pos:val('f-rel-pos')||'top'};
+  if(idx!=='') c.relations[parseInt(idx)]=r;
+  else c.relations.push(r);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-relation');
+  renderRelations(c);
+  toast('저장되었습니다.','success');
+}
+
+function deleteRelation(){
+  const c = characters.find(x=>x.id===currentCharId);
+  if(!c) return;
+  const idx = parseInt(val('f-rel-id'));
+  if(!isNaN(idx)) c.relations.splice(idx,1);
+  save(KEYS.characters,characters);
+  closeModal('modal-add-relation');
+  renderRelations(c);
+  toast('삭제되었습니다.');
+}
+
+// ═══════════════ ABOUT LINKS ═══════════════
+function renderAboutLinksEdit(){
+  const el = document.getElementById('about-links-edit');
+  const links = aboutData.links||[];
+  el.innerHTML = links.map((l,i)=>`
+    <div class="link-row" style="display:flex;gap:8px;margin-bottom:8px">
+      <input class="form-input link-title" value="${esc(l.title)}" placeholder="LINK TITLE" style="flex:1">
+      <input class="form-input link-url" value="${esc(l.url)}" placeholder="URL" style="flex:2">
+      <button class="btn-ghost" onclick="this.closest('.link-row').remove()" style="padding:6px 10px;color:var(--danger);border-color:var(--danger)">✕</button>
+    </div>
+  `).join('');
+}
+
+function addAboutLinkField(){
+  const el = document.getElementById('about-links-edit');
+  const row = document.createElement('div');
+  row.className='link-row';
+  row.style.cssText='display:flex;gap:8px;margin-bottom:8px';
+  row.innerHTML=`
+    <input class="form-input link-title" placeholder="LINK TITLE" style="flex:1">
+    <input class="form-input link-url" placeholder="URL" style="flex:2">
+    <button class="btn-ghost" onclick="this.closest('.link-row').remove()" style="padding:6px 10px;color:var(--danger);border-color:var(--danger)">✕</button>
+  `;
+  el.appendChild(row);
+}
+
+// ═══════════════ BGM ═══════════════
+let bgmLoaded = false;
+function loadBGM(input){
+  if(!input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  const audio = document.getElementById('bgm-audio');
+  audio.src = url;
+  bgmLoaded = true;
+  document.getElementById('bgm-name').textContent = input.files[0].name;
+  document.getElementById('bgm-status-text').textContent='LOADED';
+}
+
+function toggleBGM(){
+  const audio = document.getElementById('bgm-audio');
+  const dot = document.getElementById('bgm-dot');
+  const btn = document.getElementById('bgm-play-btn');
+  const status = document.getElementById('bgm-status-text');
+  if(!bgmLoaded){toast('먼저 BGM 파일을 업로드하세요.','error');return}
+  if(audio.paused){
+    audio.play().then(()=>{
+      dot.classList.add('playing');btn.textContent='⏸ PAUSE';status.textContent='PLAYING';
+    }).catch(()=>toast('재생 실패','error'));
+  }else{
+    audio.pause();dot.classList.remove('playing');btn.textContent='▶ PLAY';status.textContent='PAUSED';
+  }
+}
+
+// ═══════════════ UTILITIES ═══════════════
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function val(id){return document.getElementById(id)?.value||''}
+function setVal(id,v){const el=document.getElementById(id);if(el)el.value=v||''}
+
+function selectRadio(group,value,el){
+  if(group==='cat'){
+    document.querySelectorAll('#modal-char-edit .form-radio').forEach(r=>r.classList.remove('active'));
+    setVal('f-char-cat',value);
+  }
+  if(group==='relpos'){
+    document.querySelectorAll('#modal-add-relation .form-radio').forEach(r=>r.classList.remove('active'));
+    setVal('f-rel-pos',value);
+  }
+  el.classList.add('active');
+}
+
+function switchCharTab(tab,el){
+  document.querySelectorAll('.char-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.char-tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('char-tab-'+tab).classList.add('active');
+}
+
+function toast(msg,type=''){
+  const el = document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast'+(type?' '+type:'');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+function fmtText(cmd){document.execCommand(cmd)}
+function insertHr(){const ta=document.getElementById('f-story-content');const p=ta.selectionStart;ta.value=ta.value.slice(0,p)+'\n---\n'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=p+5}
+
+function openExternalLink(){
+  const url = worldData.link;
+  if(url) window.open(url,'_blank');
+}
+
+function showNewsModal(){
+  toast('準備中 / 준비 중')
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+  overlay.addEventListener('click',e=>{
+    if(e.target===overlay) overlay.classList.remove('open');
+  });
+});
+
+// ═══════════════ INIT ═══════════════
+renderHome();
+renderChars();
+renderWorld();
+</script>
+</body>
+</html>
